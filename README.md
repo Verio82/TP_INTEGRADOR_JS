@@ -48,3 +48,4 @@ Desarrollado como parte de un proyecto educativo.
 
 Verónica Muzzio
 📅 Julio 2025
+<p align="left"> <img src="https://avatars.githubusercontent.com/u/70914891?s=200&v=4" alt="ADA ITW Logo" width="40"/> </p> ```

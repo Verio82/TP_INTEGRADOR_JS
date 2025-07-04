@@ -44,7 +44,8 @@ Bienvenido al **Sistema de Biblioteca**, una aplicación interactiva desarrollad
 
 
 Desarrollado como parte del programa de formación de  
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Logo_ADA_ITW.png/600px-Logo_ADA_ITW.png" alt="ADA ITW Logo" width="60" align="left"/> 
+
+<img src="./yaMkmixBB1CV.png" alt="Logo ADA ITW" width="60" align="left" /> 
 
 🧑‍💻 Autor
 **Verónica Muzzio — Julio 2025**V

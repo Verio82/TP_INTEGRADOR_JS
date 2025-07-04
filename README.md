@@ -42,10 +42,10 @@ Bienvenido al **Sistema de Biblioteca**, una aplicación interactiva desarrollad
 
 ---
 
-Desarrollado como parte de un proyecto educativo.
+
+Desarrollado como parte del programa de formación de  
+<img src="https://i.imgur.com/tEmXY6n.png" alt="ADA ITW Logo" width="100" align="middle"/>  
 
 🧑‍💻 Autor
-
-Verónica Muzzio
-📅 Julio 2025
+**Verónica Muzzio — Julio 2025**V
 <p align="left"> <img src="https://avatars.githubusercontent.com/u/70914891?s=200&v=4" alt="ADA ITW Logo" width="40"/> </p> ```

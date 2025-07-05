@@ -685,18 +685,14 @@ function menuPrincipal() {   //Kike probe la solucion que vos me pasaste, lo vim
         break;
 
     case 3:
-        console.clear();  //Este sigue haciendo la pregunta cada vez que pones un caracter (quiero llorar) para mi es el mismo error que en el caso del menu con las opciones de dos digitos y no lo encuentro (lloro)
-
-        const criterioOrden = prompt(         // Solicita al usuario el criterio de ordenamiento
-          "¿Por qué criterio desea ordenar los libros?\nEscriba 'titulo' o 'anio':"
-          ).trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-        if (criterioOrden !== "titulo" && criterioOrden !== "anio") {   // Verifica si el criterio es válido
-          console.log("⚠ Criterio inválido. Debe ser 'titulo' o 'anio'.");
+        let criterioOrden = prompt("¿Por qué criterio desea ordenar los libros? (titulo/anio): ")
+          .trim()
+          .normalize("NFD").replace(/[̀-\u036f]/g, "").toLowerCase();
+        if (criterioOrden === "titulo" || criterioOrden === "anio") {
+          ordenarLibros(criterioOrden);
         } else {
-          ordenarLibros(criterioOrden);           // Llama a la función de ordenamiento
+          console.log("⚠ Criterio inválido. Debe ser 'titulo' o 'anio'.");
         }
-
         break;
 
     case 4:

@@ -5,7 +5,7 @@
 
 const prompt = require("prompt-sync")(); // Importa la librería prompt-sync para usar prompt
 
-let libros = [
+let libros = [            // Array de objetos con los libros        
   {
     id: 1,
     titulo: "Cien años de soledad",
@@ -88,11 +88,9 @@ let libros = [
   }
 ];
 
-//console.table(libros);    // Muestra el array de libros en la consola, borrar para entregar el TP!!
-
 //b) Crear un array de objetos llamado usuarios con al menos 5 usuarios
 
-let usuarios = [
+let usuarios = [                // Array de objetos con los usuarios
   {
     id: 1,
     nombre: "Luca De Castro",
@@ -125,8 +123,6 @@ let usuarios = [
   }
 ];
 
-//console.table(usuarios);   // Muestra el array de usuarios en la consola, borrar para entregar el TP!!
-
 //PUNTO 2 Funciones de gestion de libros
 
 //a)Implementar una función agregarLibro(id, titulo, autor, anio, genero) que agregue un nuevo libro al array libros.
@@ -135,7 +131,7 @@ function agregarLibro(titulo, autor, anio, genero) {
   
   function normalizarTexto(texto) {
     return texto
-      .trim()
+      .trim()              // elimina espacios al inicio y final  
       .normalize("NFD")                // separa letras de acentos
       .replace(/[\u0300-\u036f]/g, "") // elimina los acentos
       .toUpperCase();                 // convierte a mayúsculasconst existe = libros.some(libro =>
@@ -165,39 +161,33 @@ function agregarLibro(titulo, autor, anio, genero) {
     disponible: true
   };
 
-  libros.push(nuevoLibro);
+  libros.push(nuevoLibro);        // Agrega el nuevo libro al array
   console.log(`Libro "${titulo}" agregado con ID ${nuevoId}.`); //Muestra que se agregó el libro y el numero de ID
 }
-
-//agregarLibro("Rayuela", "Julio Cortázar", 1963, "Ficción"); //Se agrega el libro Borrar para entregar el TP!!
-
-//console.table(libros);
-
-//agregarLibro("Rayuela", "Julio Cortázar", 1963, "Ficción"); //Se detecta que ya existe el libro Borrar para entregar el TP!!
 
 //b) Crear una función buscarLibro(criterio, valor) que permita buscar libros por título, autor o género utilizando el algoritmo de búsqueda lineal.
 
 function buscarLibro(criterio, valor) {
 
   const criteriosValidos = ["titulo", "autor", "genero"];
-if (!criteriosValidos.includes(criterio)) {
-  console.log("Criterio inválido. Usa 'titulo', 'autor' o 'genero'.");
-  return [];
-}  
+    if (!criteriosValidos.includes(criterio)) {     // Verifica si el criterio es válido
+    console.log("Criterio inválido. Usa 'titulo', 'autor' o 'genero'.");
+    return [];
+  }  
   const resultados = [];
 
-  for (let i = 0; i < libros.length; i++) {
+  for (let i = 0; i < libros.length; i++) {      // Recorre el array de libros
     
     let libro = libros[i];
 
-    let campo = libro[criterio]?.toString().toLocaleUpperCase();  // Comparación insensible a mayúsculas/minúsculas/todo a letras
+    let campo = libro[criterio]?.toString().toLocaleUpperCase();  // Comparación insensible a mayúsculas/minúsculas/todo a letras, respeta la ñ
     if (campo && campo.includes(valor.toLocaleUpperCase())) {     //Buscar mas metodos o crear funcion para igualar todo lo ingresado
       resultados.push(libro);
     }
   }
 
   if (resultados.length > 0) {
-    console.log(`Resultados para ${criterio} = "${valor}":`);
+    console.log(`Resultados para ${criterio} = "${valor}":`);   // Muestra los resultados encontrados
     resultados.forEach(libro => {
       if (libro.disponible) {
         console.log(`✔ "${libro.titulo}" de ${libro.autor} (${libro.anio}) — DISPONIBLE`);
@@ -212,14 +202,9 @@ if (!criteriosValidos.includes(criterio)) {
   return resultados;
 }
 
-//buscarLibro("titulo", "1984");                     //Distintas pruebas de búsqueda Borrar para entregar el TP!!
-//buscarLibro("autor", "Gabriel García Márquez");
-//buscarLibro("genero", "fantasía");
-//buscarLibro("anio", "2001");
-
 //c) Desarrollar una función ordenarLibros(criterio) que ordene los libros por título o año utilizando el algoritmo de ordenamiento burbuja (bubble sort) y luego muestre los libros ordenados en la consola
 
-function ordenarLibros(criterio) {
+function ordenarLibros(criterio) {     // Verifica si el criterio es válido
   const criteriosValidos = ["titulo", "anio"];
   if (!criteriosValidos.includes(criterio)) {
     console.log("Criterio inválido. Usa 'titulo' o 'anio'.");
@@ -251,7 +236,7 @@ function ordenarLibros(criterio) {
     }
   }
 
-const tablaFormateada = librosOrdenados.map(libro => ({
+const tablaFormateada = librosOrdenados.map(libro => ({    // Formatea los datos para mostrar en la tabla
   Título: libro.titulo,
   Autor: libro.autor,
   Año: libro.anio,
@@ -263,14 +248,11 @@ console.log(`📚 Libros ordenados por ${criterio === "titulo" ? "Título" : "A�
 console.table(tablaFormateada);
 };
 
-//ordenarLibros("titulo"); // Orden alfabético por título Borrar para entregar el TP!!
-//ordenarLibros("anio");   // Orden cronológico por año Borrar para entregar el TP!!
-
 //d) Desarrollar una función borrarLibro(id) que elimine el libro que se le pase por parámetro.
 
 function borrarLibro(id) {
   
-  const index = libros.findIndex(libro => libro.id === id);
+  const index = libros.findIndex(libro => libro.id === id);    // Busca el índice del libro por ID
 
   if (index === -1) {
     console.log(`❌ No se encontró ningún libro con ID ${id}.`);
@@ -280,21 +262,17 @@ function borrarLibro(id) {
   const libro = libros[index];
 
   
-  if (!libro.disponible) {      //Verifica si el libro está prestado 
+  if (!libro.disponible) {      //Verifica si el libro está prestado y si esta prestado no lo elimina
     console.log(`⚠ El libro "${libro.titulo}" no puede eliminarse porque está actualmente prestado.`);
     return;
   }
   if (index !== -1) {
-    const libroEliminado = libros.splice(index, 1)[0];
+    const libroEliminado = libros.splice(index, 1)[0];   // Elimina el libro del array y guarda el libro eliminado
     console.log(`✅ Libro "${libroEliminado.titulo}" eliminado correctamente.`);
   } else {
     console.log(`❌ No se encontró ningún libro con ID ${id}.`);
   }
 }
-
-//borrarLibro(5);  // Elimina el libro con id 5, si existe  Borrar para entregar el TP!!
-//borrarLibro(100); // Muestra que no se encontró el libro   Borrar para entregar el TP!!
-
 
 //PUNTO 3 Gestion de usuarios
 
@@ -305,7 +283,7 @@ function esEmailValido(email) {
   return regex.test(email);
 }
 
-function registrarUsuario(nombre, email) {
+function registrarUsuario(nombre, email) {    
   if (!esEmailValido(email)) {
     console.log("❌ Formato de email inválido. Ejemplo válido: usuario@dominio.com");  //Chequea que el formato de email sea valido
     return;
@@ -326,17 +304,14 @@ function registrarUsuario(nombre, email) {
     librosPrestados: []
   };
 
-  usuarios.push(nuevoUsuario);
-  console.log(`✅ Usuario "${nombre}" registrado correctamente con ID ${nuevoId}.`);
-}
-
-//registrarUsuario("Valeria Soto", "valeria.soto@email.com");      //Borrar para entregar el TP!!
-//registrarUsuario("Melody De Castro", "melo.decastro@email.com"); // Muestra que ya existe el usuario Borrar para entregar el TP!!
+  usuarios.push(nuevoUsuario);      // Agrega el nuevo usuario al array
+  console.log(`✅ Usuario "${nombre}" registrado correctamente con ID ${nuevoId}.`);    // Muestra un mensaje de confirmación
+};
 
 //b)Implementar una funcion que me devuelva el array completo de usuarios.
 
 function mostrarTodosLosUsuarios() {
-  if (usuarios.length === 0) {
+  if (usuarios.length === 0) {        // Verifica si hay usuarios registrados
     console.log("⚠ No hay usuarios registrados.");
   } else {
     console.log("📋 Lista de usuarios registrados:");
@@ -350,7 +325,7 @@ function mostrarTodosLosUsuarios() {
         titulosPrestados = ["Ninguno"];
       }
 
-      console.log(`- ID: ${usuario.id}`);
+      console.log(`- ID: ${usuario.id}`);       //Muestra los resultados
       console.log(`  Nombre: ${usuario.nombre}`);
       console.log(`  Email: ${usuario.email}`);
       console.log(`  Libros Prestados: ${titulosPrestados.join(", ")}`);
@@ -359,11 +334,6 @@ function mostrarTodosLosUsuarios() {
 
   return usuarios;
 }
-//mostrarTodosLosUsuarios(); // Muestra todos los usuarios registrados
-
-//console.log(esEmailValido("ejemplo@gmail.com"));     // true  Borrar para entregar el TP!!
-//console.log(esEmailValido("sinarroba.com"));         // false  Borrar para entregar el TP!!
-//esEmailValido("otra@mal@direccion.com"); // false  Borrar para entregar el TP!!
 
 //c) Crear una función buscarUsuario(email) que devuelva la información de un usuario dado su email.
 
@@ -373,13 +343,13 @@ function buscarUsuario(email) {
     return("❌ Formato de email inválido. Ejemplo válido: usuario@dominio.com");
   }
 
-  const usuario = usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());
+  const usuario = usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());  // Busca al usuario por email, ignorando mayúsculas/minúsculas
 
   if (!usuario) {
-    return(`❌ No se encontró ningún usuario con el email: ${email}`);
+    return(`❌ No se encontró ningún usuario con el email: ${email}`);   // Si no se encuentra el usuario, devuelve un mensaje de error
   }
 
-  const titulosPrestados = usuario.librosPrestados.map(idLibro => {
+  const titulosPrestados = usuario.librosPrestados.map(idLibro => {   // Busca los títulos de los libros prestados
     const libro = libros.find(l => l.id === idLibro);
     return libro ? libro.titulo : `Libro no encontrado (ID: ${idLibro})`;
   });
@@ -393,10 +363,6 @@ function buscarUsuario(email) {
 
   return resultadoFormateado;
 }
-
-//console.log(buscarUsuario("usuario@correo.com"));   // Buscar si es válido
-//console.log(buscarUsuario("usuariomalcorreo.com"));  //Borrar para entregar el TP!! los 3
-//console.log(buscarUsuario("vero.muzzio@email.com"));   //Borrar para entregar el TP!! 
 
 //d) Implementar una funcion que elimine el usuario determinado 
 
@@ -414,7 +380,7 @@ function borrarUsuario(nombre, email) {
   );
 
  
-  if (!usuario) {
+  if (!usuario) {                                         // Si no se encuentra el usuario, muestra un mensaje de error
     console.log(`❌ No se encontró un usuario con nombre "${nombre}" y email "${email}".`);
     return;
   }
@@ -426,18 +392,14 @@ function borrarUsuario(nombre, email) {
     return libro ? libro.titulo : `(ID ${id} no encontrado)`;
   });
 
-  console.log(`📚 Libros prestados: ${titulosPrestados.join(", ")}`);
+  console.log(`📚 Libros prestados: ${titulosPrestados.join(", ")}`);  //Muestra los resultados
+
   return;
 }
 
   usuarios.splice(index, 1);
   console.log(`✅ Usuario "${usuario.nombre}" eliminado correctamente.`);  //Elimino al usuario si no tiene libros prestados
 }
-
-//borrarUsuario("Lucía Fernández", "lucia.fernandez@email.com"); // Elimina si existe
-//borrarUsuario("David", "david@correo.com");   
-//borrarUsuario("Veronica Muzzio", "vero.muzzio@email.com"); // Elimina si existe Borrar para entregar el TP!!
-
 
 //PUNTO 4 Sistema de préstamos
 
@@ -476,13 +438,6 @@ function prestarLibro(idLibro, idUsuario) {
   
 };  
 
-//prestarLibro(3, 2); // Presta el libro con ID 3 al usuario con ID 2 Borrar para entregar el TP!!
-//prestarLibro(6, 2); // Presta el libro con ID 3 al usuario con ID 2 Borrar para entregar el TP!!
-//prestarLibro(100, 2); // Presta el libro con ID 3 al usuario con ID 2 Borrar para entregar el TP!!
-//prestarLibro(7, 100); // Presta el libro con ID 3 al usuario con ID 2 Borrar para entregar el TP!!
-//prestarLibro(6, 3);
-
-
 
 //b) Implementar una funcion devolverLibro que marque un libro como disponible y lo elimine de la lista de libros prestados del usuario.
 
@@ -513,9 +468,6 @@ function devolverLibro(idLibro, idUsuario) {
   console.log(`✅ El libro "${libro.titulo}" fue devuelto por ${usuario.nombre}.`);   //Muestra un mensaje de confirmación
 }
 
-//devolverLibro(3, 2);
-//devolverLibro(100, 2); // Muestra que no se encontró el libro Borrar para entregar el TP!!
-//devolverLibro(7, 100); // Muestra que no se encontró el usuario Borrar para entregar el TP!!
 
 // PUNTO 5 Sistema de prestamos
 
@@ -546,7 +498,7 @@ function generarReporteLibros() {     //Chequea si hay libros registrados
     return actual.anio > nuevo.anio ? actual : nuevo;
   });
 
-  const tablaGenero = Object.entries(librosPorGenero).map(([genero, cantidad]) => ({
+  const tablaGenero = Object.entries(librosPorGenero).map(([genero, cantidad]) => ({  // Crea una tabla con la cantidad de libros por género
   Género: genero,
   Cantidad: cantidad
 }));
@@ -559,7 +511,7 @@ function generarReporteLibros() {     //Chequea si hay libros registrados
   console.log(`📖 Libro más antiguo: "${libroMasAntiguo.titulo}" (${libroMasAntiguo.anio})`);
   console.log(`📗 Libro más nuevo: "${libroMasNuevo.titulo}" (${libroMasNuevo.anio})`);
 }
-//generarReporteLibros(); // Llama a la función para generar el reporte 
+
 
 //PUNTO 6 Identificacion avanzada de libros
 
@@ -592,7 +544,7 @@ function librosConPalabrasEnTitulo() {
   return librosValidos;
 }
 
-//const titulosValidos = librosConPalabrasEnTitulo(); //Llama a la función para obtener los títulos válidos.
+
 
 //PUNTO 7 Calculos estadisticos
 
@@ -632,7 +584,6 @@ function calcularEstadisticas() {
   console.log(`🔁 Año más frecuente: ${moda} (repetido ${maxFrecuencia} veces)`);
   console.log(`📏 Diferencia entre el libro más antiguo (${anioMin}) y el más nuevo (${anioMax}): ${diferencia} años`);
 }
-//calcularEstadisticas();     // Llama a la función para calcular las estadísticas 
 
 
 //PUNTO 8 Manejo de cadenas
@@ -652,18 +603,18 @@ function normalizarDatos() {
 
   console.log("✅ Datos normalizados correctamente.");  //Mensaje de confirmación
 }
-//normalizarDatos(); // Llama a la función para normalizar los datos 
 
 //PUNTO 9 Interfaz de usuario por consola 
 
 //a) Implementar una función que muestre un menú de opciones al usuario y permita interactuar con el sistema utilizando prompt().
 
-function menuPrincipal() {
-  let opcion;
-  let opcionNum = Number(opcion);
+function menuPrincipal() {   //Kike probe la solucion que vos me pasaste, lo vimos con las chicas en el grupo de Whatsapp, probe las mil soluciones distintas que me tira la IA cada vez que le pregunto y sigue haciendo lo mismo (quiero llorar porque debe ser un ; o algo asi)
 
+  let opcion;
+  
   do {
-    opcion = prompt(
+
+    opcion = prompt(          // Muestra el menú principal con las opciones disponibles
       "📚 MENÚ PRINCIPAL - Sistema de Biblioteca\n\n" +
       "1. Agregar libro\n" +
       "2. Buscar libro\n" +
@@ -683,67 +634,67 @@ function menuPrincipal() {
       "Ingrese el número de la opción: "
     )?.trim();
 
-    if (!/^\d+$/.test(opcion)) {        // Verifica si la opción es un número
+    opcionNum = parseInt(opcion); // convierte la entrada a número
+
+    if (isNaN(opcionNum) || opcionNum < 1 || opcionNum > 15) {
       console.log("⚠ Ingrese un número válido (1 al 15).");
-      continue;
-  
-  }
-  opcionNum = Number(opcion);
-  
+      continue; // vuelve a mostrar el menu
+    }
+    
   switch (opcionNum) {
     case 1:
-        console.clear();
+        console.clear();  // Limpia la consola antes de mostrar el formulario
 
-        const titulo = prompt("📖 Ingrese el título del libro:")?.trim();
-        const autor = prompt("✍ Ingrese el autor del libro:")?.trim();
-        const anioStr = prompt("📅 Ingrese el año de publicación:");
-        const genero = prompt("🏷️ Ingrese el género del libro:")?.trim();
+        const titulo = prompt("📖 Ingrese el título del libro: ")?.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const autor = prompt("✍ Ingrese el autor del libro: ")?.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const anioStr = prompt("📅 Ingrese el año de publicación: ")?.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        const genero = prompt("🏷️ Ingrese el género del libro: ")?.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
          // Validaciones
         const anio = parseInt(anioStr);
 
-        if (!titulo || !autor || !genero || isNaN(anio)) {
+        if (!titulo || !autor || !genero || isNaN(anio)) {  // Verifica si los campos están vacíos o si el año no es un número válido
           console.log("⚠ Todos los campos son obligatorios y el año debe ser un número válido.");
           break;
         }
 
-        agregarLibro(titulo, autor, anio, genero);
+        agregarLibro(titulo, autor, anio, genero);   //Agrega el libro
         break;
 
     case 2:
          console.clear();
 
-         const criterioBuscar = prompt(
+         const criterioBuscar = prompt(     // Solicita al usuario el criterio de búsqueda
          "🔍 Buscar por (titulo, autor, genero): "
-         ).trim().toLowerCase();
+         ).trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-         const criteriosValidos = ["titulo", "autor", "genero"];
+         const criteriosValidos = ["titulo", "autor", "genero"];   //Verifica si el criterio es válido
          if (!criteriosValidos.includes(criterioBuscar)) {
           console.log("⚠ Criterio inválido. Solo se permite: titulo, autor o genero.");
           break;
         }
 
-         const valorBuscar = prompt(`Ingrese el valor a buscar por ${criterioBuscar}:`).trim();
+         const valorBuscar = prompt(`Ingrese el valor a buscar por ${criterioBuscar}:`).trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();   // Verifica si el valor de búsqueda no está vacío
 
          if (!valorBuscar) {
-          console.log("⚠ No se ingresó ningún valor de búsqueda.");
+          console.log("⚠ No se ingresó ningún valor de búsqueda.");   // Si el valor de búsqueda está vacío muestra un mensaje 
           break;
         }
 
-        buscarLibro(criterioBuscar, valorBuscar);
+        buscarLibro(criterioBuscar, valorBuscar);   // Llama a la función de búsqueda
         break;
 
     case 3:
-        console.clear();
+        console.clear();  //Este sigue haciendo la pregunta cada vez que pones un caracter (quiero llorar) para mi es el mismo error que en el caso del menu con las opciones de dos digitos y no lo encuentro (lloro)
 
-        const criterioOrden = prompt(
+        const criterioOrden = prompt(         // Solicita al usuario el criterio de ordenamiento
           "¿Por qué criterio desea ordenar los libros?\nEscriba 'titulo' o 'anio':"
-          ).trim().toLowerCase();
+          ).trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-        if (criterioOrden !== "titulo" && criterioOrden !== "anio") {
+        if (criterioOrden !== "titulo" && criterioOrden !== "anio") {   // Verifica si el criterio es válido
           console.log("⚠ Criterio inválido. Debe ser 'titulo' o 'anio'.");
         } else {
-          ordenarLibros(criterioOrden);
+          ordenarLibros(criterioOrden);           // Llama a la función de ordenamiento
         }
 
         break;
@@ -751,127 +702,134 @@ function menuPrincipal() {
     case 4:
         console.clear();
 
-        if (libros.length === 0) {
+        if (libros.length === 0) {    // Verifica si hay libros en la biblioteca
           console.log("⚠ No hay libros en la biblioteca para borrar.");
           break;
         }
 
-        console.log("📚 Lista de libros actuales:");
+        console.log("📚 Lista de libros actuales:");   //Muestra la lista de libros
         console.table(libros);
 
-        const idABorrar = parseInt(prompt("Ingrese el ID del libro que desea borrar:"));
+        const idABorrar = parseInt(prompt("Ingrese el ID del libro que desea borrar:"));    // Solicita al usuario el ID del libro 
 
-        if (isNaN(idABorrar)) {
+        if (isNaN(idABorrar)) {      // Verifica si el ID ingresado es un número válido
           console.log("⚠ Debe ingresar un número válido como ID.");
         } else {
-          borrarLibro(idABorrar);
+          borrarLibro(idABorrar);      // Llama a la función de borrado
         }
 
         break;
 
     case 5:
-        const nombreUsuario = prompt("Nombre del usuario:");
-        const emailUsuario = prompt("Email del usuario:");
-        registrarUsuario(nombreUsuario, emailUsuario);
+        console.clear();
+        const nombreUsuario = prompt("Nombre del usuario:");  // Solicita el nombre del usuario
+        const emailUsuario = prompt("Email del usuario:");  // Solicita el email del usuario
+        registrarUsuario(nombreUsuario, emailUsuario);    // Llama a la función de registro de usuario
         break;
 
     case 6:
-        mostrarTodosLosUsuarios();
+        console.clear();
+        mostrarTodosLosUsuarios();   // Muestra todos los usuarios registrados
         break;
 
     case 7:
         console.clear();
 
-        const emailBuscado = prompt("Ingrese el email del usuario a buscar:");
+        const emailBuscado = prompt("Ingrese el email del usuario a buscar:");   // Verifica si el email ingresado no está vacío
 
         if (!emailBuscado) {
-          console.log("⚠ No se ingresó ningún email.");
+          console.log("⚠ No se ingresó ningún email.");    // Si el email está vacío muestra un mensaje
           break;
         }
 
-        const resultado = buscarUsuario(emailBuscado);
+        const resultado = buscarUsuario(emailBuscado);   // Llama a la función de búsqueda de usuario
 
         console.log(resultado);   // Mostrar en consola para desarrollador
         break;
 
     case 8:
-        const nombreBorrar = prompt("Nombre del usuario a borrar:");
-        const emailBorrar = prompt("Email del usuario a borrar:");
-        borrarUsuario(nombreBorrar, emailBorrar);
+        console.clear();
+        const nombreBorrar = prompt("Nombre del usuario a borrar:");   // Solicita el nombre del usuario a borrar
+        const emailBorrar = prompt("Email del usuario a borrar:");    // Solicita el email del usuario a borrar
+        borrarUsuario(nombreBorrar, emailBorrar);                    // Llama a la función de borrado de usuario
         break;
 
     case 9:
         console.clear();
 
-        const librosDisponibles = libros.filter(l => l.disponible);
+        const librosDisponibles = libros.filter(l => l.disponible);  // Filtra los libros disponibles para prestar
         if (librosDisponibles.length === 0) {
-          console.log("⚠ No hay libros disponibles para prestar.");
+          console.log("⚠ No hay libros disponibles para prestar.");  // Si no hay libros disponibles muestra un mensaje
           break;
         }
 
-        console.log("📚 Libros disponibles:");
+        console.log("📚 Libros disponibles:");   //Muestra la lista de libros disponibles
         console.table(librosDisponibles);
 
-        console.log("👤 Usuarios registrados:");
+        console.log("👤 Usuarios registrados:");  // Muestra la lista de usuarios registrados
         console.table(usuarios);
 
-        const idLibroPrestar = parseInt(prompt("Ingrese el ID del libro a prestar:"));
-        const idUsuarioPrestar = parseInt(prompt("Ingrese el ID del usuario:"));
+        const idLibroPrestar = parseInt(prompt("Ingrese el ID del libro a prestar:"));  // Solicita el ID del libro a prestar
+        const idUsuarioPrestar = parseInt(prompt("Ingrese el ID del usuario:"));   // Solicita el ID del usuario 
 
-        if (isNaN(idLibroPrestar) || isNaN(idUsuarioPrestar)) {
+        if (isNaN(idLibroPrestar) || isNaN(idUsuarioPrestar)) {        // Verifica si los IDs ingresados son números válidos
           console.log("⚠ Debe ingresar números válidos para ID de libro y usuario.");
         } else {
-          prestarLibro(idLibroPrestar, idUsuarioPrestar);
+          prestarLibro(idLibroPrestar, idUsuarioPrestar);    // Llama a la función de préstamo de libro
       }
       break;
 
     case 10:
         console.clear();
-        const librosPrestados = libros.filter(l => !l.disponible);
+        const librosPrestados = libros.filter(l => !l.disponible);   // Filtra los libros que están prestados
 
         if (librosPrestados.length === 0) {
-        console.log("✅ No hay libros prestados actualmente.");
+        console.log("✅ No hay libros prestados actualmente.");   // Si no hay libros prestados muestra un mensaje
         break;
         }
 
-        console.log("📚 Libros actualmente prestados:");
+        console.log("📚 Libros actualmente prestados:");   // Muestra la lista de libros prestados
         console.table(librosPrestados);
 
-        console.log("👤 Lista de usuarios:");
-        console.table(usuarios);
+        console.log("👤 Lista de usuarios:");       // Muestra la lista de usuarios registrados
 
-        const idLibro = parseInt(prompt("Ingrese el ID del libro a devolver:"));
-        const idUsuario = parseInt(prompt("Ingrese el ID del usuario que devuelve el libro:"));
+        const idLibro = parseInt(prompt("Ingrese el ID del libro a devolver:"));  // Solicita el ID del libro a devolver
+        const idUsuario = parseInt(prompt("Ingrese el ID del usuario que devuelve el libro:"));  // Solicita el ID del usuario que devuelve el libro
 
-        if (isNaN(idLibro) || isNaN(idUsuario)) {
+        if (isNaN(idLibro) || isNaN(idUsuario)) {    // Verifica si los IDs ingresados son números válidos
           console.log("⚠ Debe ingresar números válidos para el ID del libro y del usuario.");
         } else {
-          devolverLibro(idLibro, idUsuario);
+          devolverLibro(idLibro, idUsuario);    // Llama a la función de devolución de libro
        }
        break;
 
     case 11:
-        generarReporteLibros();
+        console.clear();
+        generarReporteLibros();  // Llama a la función para generar el reporte de libros
         break;
 
     case 12:
-        librosConPalabrasEnTitulo();
+        console.clear();
+        librosConPalabrasEnTitulo(); // Llama a la función para identificar libros con títulos de más de una palabra
         break;
 
     case 13:
-        calcularEstadisticas();
+        console.clear();
+        calcularEstadisticas();  // Llama a la función para calcular estadísticas de los libros
         break;
 
     case 14:
-        normalizarDatos();
+        console.clear();
+        normalizarDatos();  // Llama a la función para normalizar los datos de los libros y usuarios
         break;
 
     case 15:
-        console.log("👋 Gracias por usar el sistema de biblioteca.");
+        console.clear();
+        console.log("👋 Gracias por usar el sistema de biblioteca.");  //Muestra mensaje de despedida
         break;
 
     default:
-        console.log("⚠ Opción inválida. Por favor, ingrese un número del 1 al 15.");
+        console.log("⚠ Opción inválida. Por favor, ingrese un número del 1 al 15.");  //Muestra mensaje de error
         break
     }
 
@@ -881,5 +839,6 @@ console.clear();
 console.log("=======================================");
 console.log("📚 Bienvenido al Sistema de Biblioteca");
 console.log("=======================================");
-menuPrincipal(); // Llama a la función para iniciar el menú principal Borrar para entregar el TP!!
+menuPrincipal(); // Llama a la función para iniciar el menú principal 
+
 // Fin del sistema de gestión de biblioteca
